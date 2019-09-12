@@ -31,7 +31,7 @@ defmodule LiveViewDemoWeb.PlanetsLive do
   end
 
   defp put_svg(socket) do
-    assign(socket, width: MySVG.width, height: MySVG.height, stroke: "red", fill: "grey" )
+    assign(socket, width: MySVG.width, height: MySVG.height, stroke: "cyan", fill: "blue" )
   end
 
   defp put_planets(socket) do
