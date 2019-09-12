@@ -7,6 +7,9 @@ defmodule LiveViewDemoWeb.ClockLive do
     <div>
       <h2 phx-click="boom">It's <%= strftime!(@date, "%r") %></h2>
     </div>
+    <div>
+    <h2>Hello: <%= @hello %></h2>
+    </div<
     """
   end
 
@@ -21,6 +24,6 @@ defmodule LiveViewDemoWeb.ClockLive do
   end
 
   defp put_date(socket) do
-    assign(socket, date: :calendar.local_time())
+    assign(socket, date: :calendar.local_time(), hello: "world")
   end
 end
