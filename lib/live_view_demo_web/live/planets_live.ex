@@ -12,8 +12,15 @@ defmodule LiveViewDemoWeb.PlanetsLive do
     xmlns="http://www.w3.org/2000/svg"
     stroke="<%= @stroke %>"
     fill="<%= @fill %>">
-        <%= for {px,py,r} <- @planets do %>
-          <circle cx="<%= px %>" cy="<%= py %>" r="<%= r %>" ></circle>
+        <%= for {name,px,py,r} <- @planets do %>
+          <circle
+          id="<%= r %>"
+          phx-click="choose" 
+          phx-value="<%= name %>"
+          cx="<%= px %>" 
+          cy="<%= py %>" 
+          r="<%= r %>" >
+          </circle>
         <% end %>
       </svg>
     </div>
@@ -24,6 +31,11 @@ defmodule LiveViewDemoWeb.PlanetsLive do
     if connected?(socket), do: :timer.send_interval(1000, self(), :tick)
 
     {:ok, put_svg(socket) |> put_planets }
+  end
+
+  def handle_event("choose", params, socket) do
+    IO.inspect(params)
+    {:noreply, socket}
   end
 
   def handle_info(:tick, socket) do
@@ -48,6 +60,7 @@ defmodule LiveViewDemoWeb.PlanetsLive do
 
     # what "o'clock" are we
     tick_angle = ( :math.pi * 2 )  / num_positions
+    # unix time current second modulo how many ticks are on our "clock"
     position = rem(
       Calendar.DateTime.Format.unix(
         Calendar.DateTime.now!("UTC")
@@ -63,16 +76,16 @@ defmodule LiveViewDemoWeb.PlanetsLive do
     cy = MySVG.height /2
     x = r0 * c + cx
     y = r0 * s + cy
-    {x,y,planet.radius*9} # NOTE 9 is a magic number for some reason
+    {planet.name,x,y,planet.radius*9} # NOTE 9 is a magic number for some reason
   end
 end
 
 defmodule MySVG do
   def width do
-   640
+    800
   end
 
   def height do
-    480
+    600
   end
 end
